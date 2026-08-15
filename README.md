@@ -9,7 +9,6 @@ A top-10 Philippine BPO manages 200+ SLA metrics for 42 enterprise clients with 
 ```mermaid
 flowchart LR
     KIN[Kinesis] --> SPS[Snowpipe Streaming]
-    SP --> RAW[RAW Tables]
     SPS --> RAW
     RAW --> DT[Dynamic Tables]
     DT --> ML[ML Functions]
