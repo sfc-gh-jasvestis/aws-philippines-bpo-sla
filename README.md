@@ -118,7 +118,7 @@ Industry research and Snowflake customer outcomes:
 - **SLA penalties cost Philippine BPOs $200-500M annually across the industry** — [Everest Group](https://www.everestgrp.com/research/market-insights)
 - **Proactive SLA management reduces penalty payouts by 40-60%** — [Gartner](https://www.gartner.com/en/information-technology/insights/it-outsourcing)
 - **Real-time anomaly detection identifies service degradation 3-5x faster than threshold alerts** — [McKinsey Digital](https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights)
-
+- **ServiceNow** (Snowflake customer): reduced mean time to resolution by 30% using AI-powered workforce analytics on Snowflake -- [snowflake.com/customers/servicenow](https://www.snowflake.com/en/customers/all-customers/case-study/servicenow/)
 
 ## Key Demo Numbers
 
