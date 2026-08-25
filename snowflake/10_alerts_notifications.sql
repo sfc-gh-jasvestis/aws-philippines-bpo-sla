@@ -8,7 +8,7 @@ USE SCHEMA APP;
 CREATE OR REPLACE NOTIFICATION INTEGRATION aws_philippines_bpo_sla_EMAIL_INT
   TYPE = EMAIL
   ENABLED = TRUE
-  ALLOWED_RECIPIENTS = ('jonathan.asvestis@snowflake.com');
+  ALLOWED_RECIPIENTS = ('<YOUR_EMAIL>');
 
 -- Alert: SLA_DRIFT_ALERT
 CREATE OR REPLACE ALERT APP.SLA_DRIFT_ALERT
@@ -22,7 +22,7 @@ IF (EXISTS (
 THEN
   CALL SYSTEM$SEND_EMAIL(
     'aws_philippines_bpo_sla_EMAIL_INT',
-    'jonathan.asvestis@snowflake.com',
+    '<YOUR_EMAIL>',
     '[ALERT] Service Level Optimization & SLA Drift Detection: SLA metric drifting toward breach',
     'SLA metric drifting toward breach'
   );
@@ -41,7 +41,7 @@ IF (EXISTS (
 THEN
   CALL SYSTEM$SEND_EMAIL(
     'aws_philippines_bpo_sla_EMAIL_INT',
-    'jonathan.asvestis@snowflake.com',
+    '<YOUR_EMAIL>',
     '[ALERT] Service Level Optimization & SLA Drift Detection: Projected penalty exceeds ₱500K for client',
     'Projected penalty exceeds ₱500K for client'
   );
