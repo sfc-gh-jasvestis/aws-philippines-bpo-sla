@@ -1,109 +1,81 @@
-# Demo Script: Service Level Optimization & SLA Drift Detection
-## ~4-Minute Recorded Walkthrough
-**Format**: Screen recording with voiceover
-**Target**: Customer meeting / booth loop / social share
-**Narrative**: "Snowflake ingests real-time operational metrics via Kinesis, detects SLA drift with ML.ANOMALY_DETECTION, predicts breaches, and triggers automated remediation via EventBridge-integrated Task Graphs — proactive, not reactive"
-**Demo Mode**: Open app with `?demo=true` for presenter notes
+# Service Level Optimization & SLA Drift Detection
 
----
+**Philippines - BPO & IT Services**
+Use case: Service Level Optimization
 
-## Two Personas
+> Philippine BPOs manage 200+ SLA metrics across dozens of clients — Snowflake detects SLA drift in real-time with anomaly detection, predicts breaches before they happen, and auto-triggers corrective workflows.
 
-| Persona | Role | Tool | What they care about |
-|---|---|---|---|
-| **Eduardo Jose Gonzales** | SVP Operations | React App (SPCS) | SLA compliance across clients, penalty exposure, operational efficiency, staffing gaps |
-| **Angelica Mae Dela Cruz** | Service Delivery Manager | Amazon QuickSight | Real-time queue management, AHT drift, abandon rates, interval-level performance |
+## Why Snowflake
 
----
+Snowflake ingests real-time operational metrics via Kinesis, detects SLA drift with ML.ANOMALY_DETECTION, predicts breaches, and triggers automated remediation via EventBridge-integrated Task Graphs — proactive, not reactive
 
-## What's Built
+- **ML.ANOMALY_DETECTION for SLA drift** - Only demo using anomaly detection for operational SLA metrics — not financial or IoT
+- **EventBridge → Task Graph remediation** - Automated corrective action pipeline triggered by ML detection
+- **15-minute interval real-time data** - Sub-hourly granularity for contact center performance monitoring
+- **Penalty exposure projection** - Financial impact quantified in pesos before breach occurs
+- **CloudWatch alarm classification** - AI_CLASSIFY on infrastructure alarms linking infra issues to SLA impact
+- **Philippine BPO multi-client SLA context** - 200+ metrics, 42 clients, penalty clauses — realistic enterprise BPO complexity
 
-| Layer | Component | Detail |
+## What is deployed
+
+| | |
+|---|---|
+| Database | `PH_BPO_SLA` |
+| Service | `PH_BPO_SLA_APP` |
+| Compute pool | `SEA_DEMOS_PHILIPPINES_POOL` |
+| Dimension table | `RAW.CLIENT_CONTRACTS` (20 rows) |
+| Fact table | `RAW.INTERVAL_PERFORMANCE` (250,000 rows, 90 days) |
+| Curated layer | `CURATED.PERFORMANCE_SUMMARY`, `CURATED.TREND_ANALYSIS`, `CURATED.KPI_SUMMARY` |
+| Currency | PHP (₱) |
+
+Regions in play: Metro Manila, Cebu, Davao, Pampanga, Iloilo
+Segments: Answer Speed, Resolution Time, Quality Score, Abandonment
+
+Dynamic tables are created suspended and refreshed on demand:
+
+```bash
+./refresh_demo_data.sh PH_BPO_SLA
+```
+
+## KPI cards
+
+Every card below is served live from `CURATED.KPI_SUMMARY`. The app keeps the
+original literal as a fallback, so it still renders if Snowflake is unreachable.
+
+| Card | Value | Backed by |
 |---|---|---|
-| **RAW** | 6 tables | CLIENT_CONTRACTS (42), SLA_METRICS (200), INTERVAL_PERFORMANCE (1200000), STAFFING_SCHEDULES (95000), PENALTY_HISTORY (380), CLOUDWATCH_ALARMS (15000) |
-| **CURATED** | 4 Dynamic Tables | SLA_HEALTH_REALTIME, PENALTY_EXPOSURE, STAFFING_GAP_ANALYSIS, SLA_TIMESERIES |
-| **ML** | ML.ANOMALY_DETECTION + ML.FORECAST | Forecasting + anomaly detection |
-| **AI** | COMPLETE, AI_CLASSIFY | Classification + extraction |
-| **Search** | Cortex Search | 42 documents indexed |
-| **Agent** | SLA_OPERATIONS_AGENT | Semantic View + Search tools |
+| SLA Achievement | `97.2%` | average per event |
+| Penalties Incurred | `₱4.8M` | total across Client Contracts |
+| Tickets Resolved | `847K` | total across Client Contracts |
+| Active SLAs | `124` | total across Client Contracts |
+| Breaches (MTD) | `42` | total across Client Contracts |
+| Avg Resolution | `2.4 hrs` | average per event |
+| Escalation Rate | `8%` | average per event |
 
 
----
+## Demo flow
 
-## The Story
+1. Executive Cockpit
+2. Drift Detection
+3. Staffing & Remediation
+4. Ask AI
+5. Architecture & Data
 
-A top-10 Philippine BPO manages 200+ SLA metrics for 42 enterprise clients with combined contract value of ₱4.2 billion. Every quarter, SLA penalties cost ₱15-40M — but the real damage is client churn when accounts lose confidence. Traditional monitoring detects breaches after they happen. Snowflake detects drift days before breach, predicts impact, and auto-triggers remediation.
+## Talking points
 
----
+- **200+** - SLA metrics monitored in real-time
+- **₱34M** - projected penalty exposure this quarter
+- **8 accounts** - showing anomalous SLA drift
+- **72 hours** - advance warning before FinServ AHT breach
+- **127 FTEs** - staffing gap identified across graveyard shifts
+- **₱8.5M saved** - single remediation preventing FinServ penalty
 
-## Script
+## Business impact
 
-### [0:00–0:45] EXECUTIVE COCKPIT
-
-**Show**: Executive Cockpit tab
-
-> "Two hundred SLA metrics monitored in real-time across 42 client accounts."
-
-**Action**: Point at 200 SLA metrics KPI
-
-### [0:45–1:30] DRIFT DETECTION
-
-**Show**: Drift Detection tab
-
-> "ML.ANOMALY_DETECTION flagged FinServ account AHT drifting up — 4.2 min vs 3.5 min target."
-
-**Action**: Show AHT timeseries with anomaly markers
-
-### [1:30–2:15] STAFFING & REMEDIATION
-
-**Show**: Staffing & Remediation tab
-
-> "Staffing gap analysis shows 127 FTEs needed across 3 sites for this week."
-
-**Action**: Show staffing heatmap by shift and site
-
-### [2:15–3:00] ASK AI
-
-**Show**: Ask AI tab
-
-> "Eduardo asks: 'What's our total penalty exposure for Q4?'"
-
-**Action**: Type: 'Total penalty exposure Q4?'
-
-### [3:00–3:45] ARCHITECTURE & DATA
-
-**Show**: Architecture & Data tab
-
-> "Kinesis → Snowpipe Streaming → Dynamic Tables → ML.ANOMALY_DETECTION → Task Graphs → remediation."
-
-**Action**: Walk through architecture diagram
-
+- SLA penalties cost Philippine BPOs $200-500M annually across the industry (Everest Group)
+- Proactive SLA management reduces penalty payouts by 40-60% (Gartner)
+- Real-time anomaly detection identifies service degradation 3-5x faster than threshold alerts (McKinsey Digital)
 
 ---
-
-## Key Demo Differentiators
-
-1. **ML.ANOMALY_DETECTION for SLA drift** — Only demo using anomaly detection for operational SLA metrics — not financial or IoT
-2. **EventBridge → Task Graph remediation** — Automated corrective action pipeline triggered by ML detection
-3. **15-minute interval real-time data** — Sub-hourly granularity for contact center performance monitoring
-4. **Penalty exposure projection** — Financial impact quantified in pesos before breach occurs
-5. **CloudWatch alarm classification** — AI_CLASSIFY on infrastructure alarms linking infra issues to SLA impact
-6. **Philippine BPO multi-client SLA context** — 200+ metrics, 42 clients, penalty clauses — realistic enterprise BPO complexity
-
-
----
-
-## Demo Prep Checklist
-
-### Data Verification
-- [ ] `SELECT COUNT(*) FROM SLA_OPERATIONS.RAW.INTERVAL_PERFORMANCE` → 1200000
-- [ ] `SELECT COUNT(*) FROM SLA_OPERATIONS.RAW.CLOUDWATCH_ALARMS` → 15000
-- [ ] `SELECT COUNT(DISTINCT CLIENT_METRIC_ID) FROM SLA_OPERATIONS.CURATED.SLA_HEALTH_REALTIME WHERE STATUS = 'DRIFTING'` → >=8
-
-### ML Model Verification
-- [ ] `SELECT COUNT(*) FROM SLA_OPERATIONS.ML.SLA_ANOMALY_RESULTS WHERE IS_ANOMALY = TRUE` → >0
-- [ ] `SELECT COUNT(*) FROM SLA_OPERATIONS.ML.SLA_BREACH_FORECAST_RESULTS` → >0
-
-### AI/Agent Verification
-- [ ] `SELECT COUNT(*) FROM SLA_OPERATIONS.AI.ALARM_CLASSIFICATION` → 15000
-
+Generated from `generator/demo_specs/aws-philippines-bpo-sla.json`. Do not hand-edit: run
+`python3 generator/gen_repo_docs.py aws-philippines-bpo-sla` instead.
