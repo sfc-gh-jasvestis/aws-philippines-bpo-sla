@@ -32,15 +32,22 @@ export default function HomePage() {
       .catch(() => {});
   }, []);
 
+
+  // KPI values come from /api/data, which reads CURATED.KPI_SUMMARY. The literal
+  // stays as a fallback so the card still renders if the API is unavailable.
+  const kpiVal = (title: string, fallback: string): string =>
+    (data?.kpiCards as { title: string; value: string }[] | undefined)
+      ?.find((k) => k.title === title)?.value ?? fallback;
+
   const title = narrative?.title || 'SEA AWS Demo';
 
   const executiveCockpit = (
     <div className="space-y-6">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <KPICard title="SLA Achievement" value="97.2%" status="neutral" />
-        <KPICard title="Penalties Incurred" value="₱4.8M" status="danger" />
-        <KPICard title="Tickets Resolved" value="847K" status="neutral" />
-        <KPICard title="Active SLAs" value="124" status="neutral" />
+        <KPICard title="SLA Achievement" value={kpiVal('SLA Achievement', '97.2%')} status="neutral" />
+        <KPICard title="Penalties Incurred" value={kpiVal('Penalties Incurred', '₱4.8M')} status="danger" />
+        <KPICard title="Tickets Resolved" value={kpiVal('Tickets Resolved', '847K')} status="neutral" />
+        <KPICard title="Active SLAs" value={kpiVal('Active SLAs', '124')} status="neutral" />
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="lg:col-span-1">
@@ -87,9 +94,9 @@ export default function HomePage() {
   const domainTab1 = (
     <div className="space-y-6">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <KPICard title="Breaches (MTD)" value="42" />
-        <KPICard title="Avg Resolution" value="2.4 hrs" />
-        <KPICard title="Escalation Rate" value="8%" />
+        <KPICard title="Breaches (MTD)" value={kpiVal('Breaches (MTD)', '42')} />
+        <KPICard title="Avg Resolution" value={kpiVal('Avg Resolution', '2.4 hrs')} />
+        <KPICard title="Escalation Rate" value={kpiVal('Escalation Rate', '8%')} />
       </div>
       <Chart
         data={data?.detail || [{ x: 'Mon', y: 24 }, { x: 'Tue', y: 28 }, { x: 'Wed', y: 22 }, { x: 'Thu', y: 31 }, { x: 'Fri', y: 26 }, { x: 'Sat', y: 19 }, { x: 'Sun', y: 23 }]}
