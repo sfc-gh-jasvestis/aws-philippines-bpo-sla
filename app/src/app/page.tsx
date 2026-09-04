@@ -53,6 +53,7 @@ export default function HomePage() {
         <div className="lg:col-span-1">
           <GeoMap
             country="philippines"
+            regions={data?.regions}
             markers={[{"label": "Makati", "value": "HQ: 8,400 agents", "color": "blue", "size": "lg"}, {"label": "Cebu", "value": "Site: 4,200 agents", "color": "green", "size": "lg"}, {"label": "Clark", "value": "Site: 2,100 agents", "color": "green", "size": "md"}, {"label": "Davao", "value": "Site: 1,200 agents", "color": "green", "size": "md"}, {"label": "Iloilo", "value": "Site: 800 agents", "color": "amber", "size": "sm"}]}
             routes={[]}
             title="Geographic Overview"
@@ -69,7 +70,7 @@ export default function HomePage() {
           title="SLA Achievement Trend (Weekly)"
         />
         <Chart
-          data={data?.categories || [{ category: 'North', count: 82 }, { category: 'Central', count: 74 }, { category: 'South', count: 91 }, { category: 'Highland', count: 68 }, { category: 'Coastal', count: 77 }]}
+          data={data?.categoryMetric || [{ category: 'North', count: 82 }, { category: 'Central', count: 74 }, { category: 'South', count: 91 }, { category: 'Highland', count: 68 }, { category: 'Coastal', count: 77 }]}
           type="bar"
           xKey="category"
           yKeys={[{ key: 'count', name: 'Count' }]}
