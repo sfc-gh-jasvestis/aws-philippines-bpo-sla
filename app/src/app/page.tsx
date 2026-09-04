@@ -53,6 +53,7 @@ export default function HomePage() {
         <div className="lg:col-span-1">
           <GeoMap
             country="philippines"
+            labels={{ entity: 'Clients', event: 'Interval Records', alert: 'Breaches' }}
             regions={data?.regions}
             markers={[{"label": "Makati", "value": "HQ: 8,400 agents", "color": "blue", "size": "lg"}, {"label": "Cebu", "value": "Site: 4,200 agents", "color": "green", "size": "lg"}, {"label": "Clark", "value": "Site: 2,100 agents", "color": "green", "size": "md"}, {"label": "Davao", "value": "Site: 1,200 agents", "color": "green", "size": "md"}, {"label": "Iloilo", "value": "Site: 800 agents", "color": "amber", "size": "sm"}]}
             routes={[]}
@@ -83,8 +84,13 @@ export default function HomePage() {
         columns={[
           { key: 'id', header: '#' },
           { key: 'name', header: 'Client' },
+          { key: 'region', header: 'Region' },
           { key: 'status', header: 'SLA Status' },
-          { key: 'value', header: 'Achievement %' },
+          { key: 'm1', header: 'Achievement %' },
+          { key: 'm2', header: 'Resolution' },
+          { key: 'm3', header: 'Escalation Rate' },
+          { key: 'events', header: 'Interval Records' },
+          { key: 'alerts', header: 'Breaches' },
         ]}
         data={data?.entities || []}
         title="SLA Performance by Client"
